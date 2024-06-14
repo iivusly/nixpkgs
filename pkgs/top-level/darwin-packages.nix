@@ -174,6 +174,8 @@ impure-cmds // appleSourcePackages // chooseLibs // {
 
   openwith = callPackage ../os-specific/darwin/openwith { };
 
+  obs-studio = callPackage ../os-specific/darwin/obs-studio { };
+
   stubs = pkgs.callPackages ../os-specific/darwin/stubs { };
 
   trash = callPackage ../os-specific/darwin/trash { };
