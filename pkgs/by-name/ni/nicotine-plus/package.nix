@@ -6,6 +6,8 @@
 , gobject-introspection
 , gtk4
 , python3Packages
+, stdenvNoCC
+, makeWrapper
 }:
 
 python3Packages.buildPythonApplication rec {
@@ -19,7 +21,7 @@ python3Packages.buildPythonApplication rec {
     hash = "sha256-3OMcCMHx+uRid9MF2LMaqUOVQEDlvJiLIVDpCunhxw8=";
   };
 
-  nativeBuildInputs = [ gettext wrapGAppsHook4 gobject-introspection ];
+  nativeBuildInputs = [ gettext wrapGAppsHook4 gobject-introspection makeWrapper ];
 
   propagatedBuildInputs = [
     gdk-pixbuf
@@ -30,6 +32,41 @@ python3Packages.buildPythonApplication rec {
 
   postInstall = ''
     ln -s $out/bin/nicotine $out/bin/nicotine-plus
+  '' + lib.optionalString stdenvNoCC.isDarwin ''
+    APP_PATH="$out/Applications/Nicotine+.app/Contents"
+    mkdir -p $APP_PATH/MacOS $APP_PATH/Resources
+
+    cat << EOF | tee $APP_PATH/Info.plist
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    <plist version="1.0">
+    <dict>
+      <key>CFBundleDevelopmentRegion</key>
+      <string>English</string>
+      <key>CFBundleExecutable</key>
+      <string>nicotine</string>
+      <key>CFBundleIconFile</key>
+      <string>icon.icns</string>
+      <key>CFBundleIdentifier</key>
+      <string>org.nicotine_plus.Nicotine</string>
+      <key>CFBundleInfoDictionaryVersion</key>
+      <string>6.0</string>
+      <key>CFBundleName</key>
+      <string>Nicotine+</string>
+      <key>CFBundlePackageType</key>
+      <string>APPL</string>
+      <key>CFBundleShortVersionString</key>
+      <string>${version}</string>
+      <key>CFBundleVersion</key>
+      <string>${version}</string>
+      <key>NSHighResolutionCapable</key>
+      <string>True</string>
+    </dict>
+    </plist>
+    EOF
+
+    cp -r packaging/macos/icon.icns $APP_PATH/Resources
+    makeWrapper $out/bin/nicotine $APP_PATH/MacOS/nicotine
   '';
 
   preFixup = ''
