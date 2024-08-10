@@ -3,7 +3,6 @@
 , hash
 , npmDepsHash
 , vendorHash
-, nixUpdateExtraArgs ? [ ]
 }:
 
 { bash
@@ -155,7 +154,7 @@ buildGoModule rec {
     '';
 
     tests = if lts then nixosTests.forgejo-lts else nixosTests.forgejo;
-    updateScript = nix-update-script { extraArgs = nixUpdateExtraArgs; };
+    updateScript = nix-update-script { };
   };
 
   meta = {

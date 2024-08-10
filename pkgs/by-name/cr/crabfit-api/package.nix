@@ -13,7 +13,7 @@
   adaptor ? "sql",
 }:
 
-rustPlatform.buildRustPackage rec {
+rustPlatform.buildRustPackage {
   pname = "crabfit-api";
   version = "0-unstable-2023-08-02";
 
@@ -24,7 +24,7 @@ rustPlatform.buildRustPackage rec {
     hash = "sha256-jy8BrJSHukRenPbZHw4nPx3cSi7E2GSg//WOXDh90mY=";
   };
 
-  sourceRoot = "${src.name}/api";
+  sourceRoot = "source/api";
 
   patches = [
     (fetchpatch {

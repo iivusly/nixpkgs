@@ -13,21 +13,27 @@
 
 buildPythonPackage rec {
   pname = "container-inspector";
-  version = "33.0.1";
-  pyproject = true;
+  version = "33.0.0";
+  format = "setuptools";
 
   disabled = pythonOlder "3.6";
 
   src = fetchFromGitHub {
     owner = "nexB";
-    repo = "container-inspector";
+    repo = pname;
     rev = "refs/tags/v${version}";
-    hash = "sha256-bXJ4UIDVhiU0DurEeRiyLlSUrNRgwoMqAxXxGb/CcJs=";
+    hash = "sha256-vtC42yq59vTE+4tF5CSm9zszj8goOP5i6+NMF2n4T1Q=";
   };
 
   dontConfigure = true;
 
-  build-system = [ setuptools-scm ];
+  postPatch = ''
+    # PEP440 support was removed in newer setuptools, https://github.com/nexB/container-inspector/pull/51
+    substituteInPlace setup.cfg \
+      --replace ">=3.7.*" ">=3.7"
+  '';
+
+  nativeBuildInputs = [ setuptools-scm ];
 
   propagatedBuildInputs = [
     attrs

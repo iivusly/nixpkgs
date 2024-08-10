@@ -5,34 +5,26 @@
   isPy3k,
   lib,
   mkdocs,
-  poetry-core,
-  livereload,
-  tornado,
 }:
 
 buildPythonPackage rec {
   pname = "mkdocs-drawio-exporter";
   version = "0.9.1";
-  pyproject = true;
+  format = "setuptools";
 
   disabled = !isPy3k;
 
   src = fetchPypi {
-    pname = "mkdocs_drawio_exporter";
-    inherit version;
+    inherit pname version;
     hash = "sha256-x8X8hvN/tL8C6VhgMCEHDh2hILjBoyLgQfsFD1+qXgo=";
   };
 
-  build-system = [ poetry-core ];
-
-  dependencies = [
+  propagatedBuildInputs = [
     mkdocs
     drawio-headless
-    livereload
-    tornado
   ];
 
-  pythonImportsCheck = [ "mkdocs_drawio_exporter" ];
+  pythonImportsCheck = [ "mkdocsdrawioexporter" ];
 
   meta = with lib; {
     description = "Exports your Draw.io diagrams at build time for easier embedding into your documentation";

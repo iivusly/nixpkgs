@@ -7,7 +7,6 @@
 , fetchFromGitHub
 , gradle
 , jdk17
-, zenity
 
 # for arc
 , SDL2
@@ -190,7 +189,6 @@ stdenv.mkDerivation {
       mkdir -p $out/bin
       makeWrapper ${jdk}/bin/java $out/bin/mindustry \
         --add-flags "-jar $out/share/mindustry.jar" \
-        ${lib.optionalString stdenv.isLinux "--suffix PATH : ${lib.makeBinPath [zenity]}"} \
         --suffix LD_LIBRARY_PATH : ${lib.makeLibraryPath [libpulseaudio alsa-lib libjack2]} \
         --set ALSA_PLUGIN_DIR ${alsa-plugins}/lib/alsa-lib/'' + optionalString enableWayland '' \
         --set SDL_VIDEODRIVER wayland \

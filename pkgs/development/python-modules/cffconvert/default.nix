@@ -9,7 +9,7 @@
   pykwalify,
   jsonschema,
   pytestCheckHook,
-  pytest-cov-stub,
+  pytest-cov,
 }:
 
 buildPythonPackage rec {
@@ -34,9 +34,11 @@ buildPythonPackage rec {
     jsonschema
   ];
 
-  nativeCheckInputs = [
-    pytestCheckHook
-    pytest-cov-stub
+  nativeCheckInputs = [ pytestCheckHook ];
+
+  checkInputs = [
+    # addopts uses --no-cov
+    pytest-cov
   ];
 
   disabledTestPaths = [

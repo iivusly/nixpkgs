@@ -21,7 +21,7 @@ stdenv.mkDerivation (finalAttrs: {
     hash = "sha256-k2+ddJIgGE41KGZODovU9VdurbWerEtdqNrFDwyuFjo=";
   };
 
-  sourceRoot = "${finalAttrs.src.name}/src";
+  sourceRoot = "source/src";
 
   patches = [
     # https://github.com/ablab/spades/pull/1314

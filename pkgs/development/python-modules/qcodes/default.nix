@@ -36,6 +36,7 @@
   websockets,
   wrapt,
   xarray,
+  importlib-metadata,
 
   # optional-dependencies
   jinja2,
@@ -63,16 +64,16 @@
 
 buildPythonPackage rec {
   pname = "qcodes";
-  version = "0.47.0";
+  version = "0.46.0";
   pyproject = true;
 
-  disabled = pythonOlder "3.10";
+  disabled = pythonOlder "3.9";
 
   src = fetchFromGitHub {
     owner = "microsoft";
     repo = "Qcodes";
     rev = "refs/tags/v${version}";
-    hash = "sha256-Gp+HeYJGWyW49jisadnavjIpzu7C2uS2qWn7eC6okqg=";
+    hash = "sha256-CeAX3sBE21v68KnCe8z28WTc7zMPA7usRRGh+dNijjo=";
   };
 
   build-system = [
@@ -107,7 +108,7 @@ buildPythonPackage rec {
     websockets
     wrapt
     xarray
-  ];
+  ] ++ lib.optionals (pythonOlder "3.10") [ importlib-metadata ];
 
   optional-dependencies = {
     docs = [

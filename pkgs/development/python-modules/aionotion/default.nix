@@ -13,7 +13,7 @@
   pytest-aiohttp,
   pytest-asyncio,
   pytestCheckHook,
-  pytest-cov-stub,
+  pytest-cov,
   pythonOlder,
   yarl,
 }:
@@ -50,7 +50,7 @@ buildPythonPackage rec {
     aresponses
     pytest-aiohttp
     pytest-asyncio
-    pytest-cov-stub
+    pytest-cov
     pytestCheckHook
   ];
 

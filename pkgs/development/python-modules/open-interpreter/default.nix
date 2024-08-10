@@ -5,86 +5,74 @@
   pythonOlder,
   poetry-core,
 
-  setuptools,
+  appdirs,
   astor,
   inquirer,
+  litellm,
   pyyaml,
   rich,
   six,
+  tiktoken,
   tokentrim,
   wget,
   psutil,
   html2image,
-  send2trash,
   ipykernel,
   jupyter-client,
   matplotlib,
   toml,
-  tiktoken,
-  platformdirs,
-  pydantic,
-  google-generativeai,
-  pynput,
-  pyperclip,
-  yaspin,
-  shortuuid,
-  litellm,
-
-  nltk,
+  posthog,
+  openai,
+  setuptools,
 }:
 
 buildPythonPackage rec {
   pname = "open-interpreter";
-  version = "0.3.6";
+  version = "0.2.0";
   pyproject = true;
 
   disabled = pythonOlder "3.9";
 
   src = fetchFromGitHub {
     owner = "KillianLucas";
-    repo = "open-interpreter";
+    repo = pname;
     rev = "v${version}";
-    hash = "sha256-TeBiRylrq5CrAG9XS47Z9GlruAv7V7Nsl4QbSV55isM=";
+    hash = "sha256-XeJ6cADtyXtqoTXwYJu+i9d3NYbJCLpYOeZYmdImtwI=";
   };
 
-  pythonRemoveDeps = [ "git-python" ];
+  # Remove unused dependency
+  postPatch = ''
+    substituteInPlace pyproject.toml --replace 'git-python = "^1.0.3"' ""
+  '';
 
-  pythonRelaxDeps = [
-    "psutil"
-    "pynput"
-    "yaspin"
+  pythonRelaxDeps = [ "tiktoken" ];
+
+  nativeBuildInputs = [
+    poetry-core
   ];
 
-  build-system = [ poetry-core ];
-
-  dependencies = [
-    setuptools
+  propagatedBuildInputs = [
+    appdirs
     astor
     inquirer
+    litellm
     pyyaml
     rich
     six
+    tiktoken
     tokentrim
     wget
     psutil
     html2image
-    send2trash
     ipykernel
     jupyter-client
     matplotlib
     toml
-    tiktoken
-    platformdirs
-    pydantic
-    google-generativeai
-    pynput
-    pyperclip
-    yaspin
-    shortuuid
-    litellm
+    posthog
+    openai
 
-    # marked optional in pyproject.toml but still required?
-    nltk
+    # Not explicitly in pyproject.toml but required due to use of `pkgs_resources`
+    setuptools
   ];
 
   pythonImportsCheck = [ "interpreter" ];

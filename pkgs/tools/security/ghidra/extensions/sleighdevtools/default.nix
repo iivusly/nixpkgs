@@ -1,8 +1,7 @@
-{
-  lib,
-  buildGhidraExtension,
-  ghidra,
-  python3,
+{ lib
+, buildGhidraExtension
+, ghidra
+, python3
 }:
 
 buildGhidraExtension {
@@ -35,7 +34,7 @@ buildGhidraExtension {
     downloadPage = "https://github.com/NationalSecurityAgency/ghidra/tree/master/Ghidra/Extensions/SleighDevTools";
     sourceProvenance = with sourceTypes; [
       fromSource
-      binaryBytecode # deps
+      binaryBytecode  # deps
     ];
   };
 }

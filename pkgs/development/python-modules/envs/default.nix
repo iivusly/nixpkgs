@@ -4,8 +4,10 @@
   click,
   fetchPypi,
   jinja2,
-  pytestCheckHook,
+  mock,
+  nose,
   poetry-core,
+  pythonOlder,
   terminaltables,
 }:
 
@@ -14,32 +16,44 @@ buildPythonPackage rec {
   version = "1.4";
   pyproject = true;
 
+  disabled = pythonOlder "3.7";
+
   src = fetchPypi {
     inherit pname version;
     hash = "sha256-nYQ1xphdHN1oKZ4ExY4r24rmz2ayWWqAeeb5qT8qA5g=";
   };
 
-  build-system = [ poetry-core ];
+  nativeBuildInputs = [ poetry-core ];
 
-  dependencies = [
+  propagatedBuildInputs = [
     click
     jinja2
     terminaltables
   ];
 
-  nativeCheckInputs = [ pytestCheckHook ];
+  # test rely on nose
+  doCheck = pythonOlder "3.12";
 
-  pytestFlagsArray = [ "envs/tests.py" ];
+  nativeCheckInputs = [
+    mock
+    nose
+  ];
 
-  disabledTests = [ "test_list_envs" ];
+  checkPhase = ''
+    runHook preCheck
+
+    nosetests --with-isolation
+
+    runHook postCheck
+  '';
 
   pythonImportsCheck = [ "envs" ];
 
-  meta = {
+  meta = with lib; {
     description = "Easy access to environment variables from Python";
     mainProgram = "envs";
     homepage = "https://github.com/capless/envs";
-    license = lib.licenses.asl20;
-    maintainers = with lib.maintainers; [ peterhoeg ];
+    license = licenses.asl20;
+    maintainers = with maintainers; [ peterhoeg ];
   };
 }

@@ -15,20 +15,19 @@
 
 buildPythonPackage rec {
   pname = "google-cloud-vpc-access";
-  version = "1.10.5";
+  version = "1.10.4";
   pyproject = true;
 
   disabled = pythonOlder "3.8";
 
   src = fetchPypi {
-    pname = "google_cloud_vpc_access";
-    inherit version;
-    hash = "sha256-ee0O0MDo3VEUuansbm0Io35g/8aRA2ShoZh+IfwQAww=";
+    inherit pname version;
+    hash = "sha256-FmCNw0esH7WbH0v4YzHyvc0lyRhJp3ywJNe+gMePdTU=";
   };
 
-  build-system = [ setuptools ];
+  nativeBuildInputs = [ setuptools ];
 
-  dependencies = [
+  propagatedBuildInputs = [
     google-api-core
     google-auth
     proto-plus

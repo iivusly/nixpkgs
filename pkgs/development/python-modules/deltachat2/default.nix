@@ -2,6 +2,7 @@
 , fetchFromGitHub
 , buildPythonPackage
 , deltachat-rpc-server
+, libdeltachat
 , setuptools-scm
 , substituteAll
 }:
@@ -36,6 +37,6 @@ buildPythonPackage rec {
     homepage = "https://github.com/adbenitez/deltachat2";
     license = lib.licenses.mpl20;
     mainProgram = "deltachat2";
-    inherit (deltachat-rpc-server.meta) maintainers;
+    inherit (libdeltachat.meta) maintainers;
   };
 }

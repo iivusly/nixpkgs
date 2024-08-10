@@ -4,7 +4,7 @@
   fetchPypi,
   isPy27,
   pytest,
-  pytest-cov-stub,
+  pytest-cov,
   nbval,
   jupyter-packaging,
   ipywidgets,
@@ -38,7 +38,7 @@ buildPythonPackage rec {
 
   nativeCheckInputs = [
     pytest
-    pytest-cov-stub
+    pytest-cov
     nbval
   ];
 

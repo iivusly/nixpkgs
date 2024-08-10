@@ -7,7 +7,7 @@
   requests,
   websocket-client,
   # dependencies for tests
-  pytest-cov-stub,
+  pytest-cov,
   pytest,
   sure,
   responses,
@@ -35,7 +35,7 @@ buildPythonPackage rec {
   ];
 
   nativeCheckInputs = [
-    pytest-cov-stub
+    pytest-cov
     pytest
     sure
     responses

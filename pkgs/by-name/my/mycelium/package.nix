@@ -10,7 +10,7 @@ rustPlatform.buildRustPackage rec {
   pname = "mycelium";
   version = "0.5.3";
 
-  sourceRoot = "${src.name}/myceliumd";
+  sourceRoot = "source/myceliumd";
 
   src = fetchFromGitHub {
     owner = "threefoldtech";

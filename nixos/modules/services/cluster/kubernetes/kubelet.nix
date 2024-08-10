@@ -65,7 +65,7 @@ let
     // lib.optionalAttrs (cfg.tlsKeyFile != null)   { tlsPrivateKeyFile = cfg.tlsKeyFile; }
     // lib.optionalAttrs (cfg.clusterDomain != "")  { clusterDomain = cfg.clusterDomain; }
     // lib.optionalAttrs (cfg.clusterDns != "")     { clusterDNS = [ cfg.clusterDns ] ; }
-    // lib.optionalAttrs (cfg.featureGates != {})   { featureGates = cfg.featureGates; }
+    // lib.optionalAttrs (cfg.featureGates != [])   { featureGates = cfg.featureGates; }
   ));
 
   manifestPath = "kubernetes/manifests";
@@ -185,10 +185,10 @@ in
     };
 
     featureGates = mkOption {
-      description = "Attribute set of feature gate";
+      description = "List set of feature gates";
       default = top.featureGates;
       defaultText = literalExpression "config.${otop.featureGates}";
-      type = attrsOf bool;
+      type = listOf str;
     };
 
     healthz = {

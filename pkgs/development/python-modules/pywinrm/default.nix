@@ -2,46 +2,38 @@
   lib,
   buildPythonPackage,
   fetchPypi,
-  mock,
-  pykerberos,
-  pytestCheckHook,
   pythonOlder,
-  requests-credssp,
-  requests-ntlm,
+  mock,
+  pytestCheckHook,
   requests,
-  setuptools,
+  requests-ntlm,
+  six,
   xmltodict,
 }:
 
 buildPythonPackage rec {
   pname = "pywinrm";
-  version = "0.5.0";
-  pyproject = true;
+  version = "0.4.3";
+  format = "setuptools";
 
   disabled = pythonOlder "3.8";
 
   src = fetchPypi {
     inherit pname version;
-    hash = "sha256-VCjrHklK95VFRs1P8Vye8aMKdeBbJaOf1gbO8iIB6fE=";
+    hash = "sha256-mVZ0v1rGSyViycVlQEcxCeUw02veEMJi1aUpYSGtVWU=";
   };
 
-  build-system = [ setuptools ];
-
-  dependencies = [
+  propagatedBuildInputs = [
     requests
     requests-ntlm
+    six
     xmltodict
   ];
-
-  optional-dependencies = {
-    credssp = [ requests-credssp ];
-    kerberos = [ pykerberos ];
-  };
 
   nativeCheckInputs = [
     mock
     pytestCheckHook
-  ] ++ lib.flatten (builtins.attrValues optional-dependencies);
+  ];
 
   pythonImportsCheck = [ "winrm" ];
 
@@ -50,7 +42,6 @@ buildPythonPackage rec {
   meta = with lib; {
     description = "Python library for Windows Remote Management";
     homepage = "https://github.com/diyan/pywinrm";
-    changelog = "https://github.com/diyan/pywinrm/blob/v${version}/CHANGELOG.md";
     license = licenses.mit;
     maintainers = with maintainers; [
       elasticdog

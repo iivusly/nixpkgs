@@ -1,5 +1,5 @@
 { lib, rustPlatform, fetchFromGitHub }:
-rustPlatform.buildRustPackage rec {
+rustPlatform.buildRustPackage {
   pname = "loco-cli";
   version = "0.2.6";
 
@@ -17,7 +17,7 @@ rustPlatform.buildRustPackage rec {
     ln -s ${./Cargo.lock} Cargo.lock
   '';
 
-  sourceRoot = "${src.name}/loco-cli";
+  sourceRoot = "source/loco-cli";
 
   meta = with lib; {
     mainProgram = "loco";

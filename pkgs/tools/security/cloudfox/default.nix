@@ -6,16 +6,16 @@
 
 buildGoModule rec {
   pname = "cloudfox";
-  version = "1.14.2";
+  version = "1.14.1";
 
   src = fetchFromGitHub {
     owner = "BishopFox";
     repo = "cloudfox";
     rev = "refs/tags/v${version}";
-    hash = "sha256-8z/j1bJT5xccSlyBnx32Dqqg6J9iazTaJgUmjN3Jc8c=";
+    hash = "sha256-4LOKCdnNiJdnLsCsoME5CZSFog5W+8IA7HwTe+QfHGY=";
   };
 
-  vendorHash = "sha256-MQ1yoJjAWNx95Eafcarp/JNYq06xu9P05sF2QTW03NY=";
+  vendorHash = "sha256-2+UiaU4S64afH8Y8uz5ZclO5NxTi4YlUZ87ZN1MnLj0=";
 
   ldflags = [
     "-w"

@@ -9,7 +9,6 @@
   hatchling,
   pandas,
   pyarrow,
-  python-dateutil,
   pythonOlder,
   sqlalchemy,
   tenacity,
@@ -17,27 +16,26 @@
 
 buildPythonPackage rec {
   pname = "pyathena";
-  version = "3.9.0";
+  version = "3.8.3";
   pyproject = true;
 
   disabled = pythonOlder "3.8";
 
   src = fetchPypi {
     inherit pname version;
-    hash = "sha256-SxHUnfAyVcVW4R9j0ONGzCXqGWdaeseP/QU3vNhMtI8=";
+    hash = "sha256-mcYIYOgww4UM0CAcdtOD12pp53clPdDqN85bLRHGDag=";
   };
 
-  build-system = [ hatchling ];
+  nativeBuildInputs = [ hatchling ];
 
-  dependencies = [
+  propagatedBuildInputs = [
     boto3
     botocore
     fsspec
     tenacity
-    python-dateutil
   ];
 
-  optional-dependencies = {
+  passthru.optional-dependencies = {
     pandas = [ pandas ];
     sqlalchemy = [ sqlalchemy ];
     arrow = [ pyarrow ];

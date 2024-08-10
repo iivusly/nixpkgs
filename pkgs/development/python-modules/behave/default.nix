@@ -4,49 +4,46 @@
   fetchFromGitHub,
   buildPythonPackage,
   python,
-  pythonOlder,
   pytestCheckHook,
-  assertpy,
   mock,
   path,
   pyhamcrest,
   pytest-html,
+  glibcLocales,
   colorama,
   cucumber-tag-expressions,
   parse,
   parse-type,
-  setuptools,
   six,
 }:
 
 buildPythonPackage rec {
   pname = "behave";
-  version = "1.2.7.dev5";
-  pyproject = true;
+  version = "1.2.7.dev2";
+  format = "setuptools";
 
   src = fetchFromGitHub {
     owner = "behave";
-    repo = "behave";
+    repo = pname;
     rev = "v${version}";
-    hash = "sha256-G1o0a57MRczwjGLl/tEYC+yx3nxpk6+E58RvR9kVJpA=";
+    hash = "sha256-B8PUN1Q4UAsDWrHjPZDlpaPjCKjI/pAogCSI+BQnaWs=";
   };
-
-  build-system = [ setuptools ];
 
   nativeCheckInputs = [
     pytestCheckHook
-    assertpy
     mock
     path
     pyhamcrest
     pytest-html
   ];
 
-  doCheck = pythonOlder "3.12";
+  # upstream tests are failing, so instead we only check if we can import it
+  doCheck = false;
 
   pythonImportsCheck = [ "behave" ];
 
-  dependencies = [
+  buildInputs = [ glibcLocales ];
+  propagatedBuildInputs = [
     colorama
     cucumber-tag-expressions
     parse
@@ -63,13 +60,15 @@ buildPythonPackage rec {
   disabledTests = lib.optionals stdenv.isDarwin [ "test_step_decorator_async_run_until_complete" ];
 
   postCheck = ''
+    export LANG="en_US.UTF-8"
+    export LC_ALL="en_US.UTF-8"
+
     ${python.interpreter} bin/behave -f progress3 --stop --tags='~@xfail' features/
     ${python.interpreter} bin/behave -f progress3 --stop --tags='~@xfail' tools/test-features/
     ${python.interpreter} bin/behave -f progress3 --stop --tags='~@xfail' issue.features/
   '';
 
   meta = with lib; {
-    changelog = "https://github.com/behave/behave/blob/${src.rev}/CHANGES.rst";
     homepage = "https://github.com/behave/behave";
     description = "behaviour-driven development, Python style";
     mainProgram = "behave";

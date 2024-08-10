@@ -13,7 +13,7 @@
 stdenv.mkDerivation rec {
   pname = "arrow-glib";
   inherit (arrow-cpp) src version;
-  sourceRoot = "${arrow-cpp.src.name}/c_glib";
+  sourceRoot = "source/c_glib";
 
   strictDeps = true;
 

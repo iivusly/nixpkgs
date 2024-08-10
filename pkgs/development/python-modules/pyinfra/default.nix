@@ -8,7 +8,6 @@
   fetchFromGitHub,
   gevent,
   jinja2,
-  packaging,
   paramiko,
   pytestCheckHook,
   python-dateutil,
@@ -16,41 +15,35 @@
   pywinrm,
   pyyaml,
   setuptools,
-  typeguard,
-  typing-extensions,
 }:
 
 buildPythonPackage rec {
   pname = "pyinfra";
-  version = "3.0.2";
-  pyproject = true;
+  version = "2.9.2";
+  format = "setuptools";
 
-  disabled = pythonOlder "3.10";
+  disabled = pythonOlder "3.7";
 
   src = fetchFromGitHub {
     owner = "Fizzadar";
-    repo = "pyinfra";
+    repo = pname;
     rev = "refs/tags/v${version}";
-    hash = "sha256-Pjmh/aPsMIwGv5Agf+UGm1T3jv8i9jJQ7SEGc3vDxZg=";
+    hash = "sha256-lzbFwAg1aLCfBnSnqq4oVteArpkRBa7hU8V3vB5ODa8=";
   };
 
-  build-system = [ setuptools ];
-
-  dependencies = [
+  propagatedBuildInputs = [
     click
     colorama
     configparser
     distro
     gevent
     jinja2
-    packaging
     paramiko
     python-dateutil
     pywinrm
     pyyaml
     setuptools
-    typeguard
-  ] ++ lib.optionals (pythonOlder "3.10") [ typing-extensions ];
+  ];
 
   nativeCheckInputs = [ pytestCheckHook ];
 
@@ -63,6 +56,7 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "Python-based infrastructure automation";
+    mainProgram = "pyinfra";
     longDescription = ''
       pyinfra automates/provisions/manages/deploys infrastructure. It can be used for
       ad-hoc command execution, service deployment, configuration management and more.
@@ -70,8 +64,7 @@ buildPythonPackage rec {
     homepage = "https://pyinfra.com";
     downloadPage = "https://pyinfra.com/Fizzadar/pyinfra/releases";
     changelog = "https://github.com/Fizzadar/pyinfra/blob/v${version}/CHANGELOG.md";
-    license = licenses.mit;
     maintainers = with maintainers; [ totoroot ];
-    mainProgram = "pyinfra";
+    license = licenses.mit;
   };
 }

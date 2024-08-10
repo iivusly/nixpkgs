@@ -2,7 +2,6 @@
 , fetchzip
 , lib
 , writeScript
-, autoPatchelfHook
 }:
 
 { pname
@@ -33,8 +32,6 @@ stdenvNoCC.mkDerivation (finalAttrs: (lib.recursiveUpdate {
     inherit url hash;
     stripRoot = false;
   };
-
-  nativeBuildInputs = [ autoPatchelfHook ];
 
   installPhase = ''
     mkdir -p "$out/share/gauge-plugins/${pname}/${finalAttrs.version}"

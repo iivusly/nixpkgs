@@ -9,7 +9,7 @@
   pyexcel-xls,
   psutil,
   pytestCheckHook,
-  pytest-cov-stub,
+  pytest-cov,
   setuptools,
 }:
 
@@ -43,7 +43,7 @@ buildPythonPackage rec {
 
   nativeCheckInputs = [
     pytestCheckHook
-    pytest-cov-stub
+    pytest-cov
     pyexcel
     pyexcel-xls
     psutil

@@ -11,7 +11,7 @@
 
   # tests
   hypothesis,
-  pytest-cov-stub,
+  pytest-cov,
   pytestCheckHook,
 }:
 
@@ -31,7 +31,7 @@ buildPythonPackage rec {
 
   postPatch = ''
     substituteInPlace pytest.ini \
-      --replace "--flakes" ""
+      --replace "--cov=ndindex/ --cov-report=term-missing --flakes" ""
   '';
 
   passthru.optional-dependencies.arrays = [ numpy ];
@@ -40,7 +40,7 @@ buildPythonPackage rec {
 
   nativeCheckInputs = [
     hypothesis
-    pytest-cov-stub
+    pytest-cov # uses cov markers
     pytestCheckHook
   ] ++ passthru.optional-dependencies.arrays;
 

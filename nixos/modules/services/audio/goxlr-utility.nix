@@ -28,30 +28,19 @@ with lib;
     };
   };
 
-  config =
-    let
-      goxlr-autostart = pkgs.stdenv.mkDerivation {
-        name = "autostart-goxlr-daemon";
-        priority = 5;
-
-        buildCommand = ''
-          mkdir -p $out/etc/xdg/autostart
-          cp ${cfg.package}/share/applications/goxlr-utility.desktop $out/etc/xdg/autostart/goxlr-daemon.desktop
-          chmod +w $out/etc/xdg/autostart/goxlr-daemon.desktop
-          echo "X-KDE-autostart-phase=2" >> $out/etc/xdg/autostart/goxlr-daemon.desktop
-          substituteInPlace $out/etc/xdg/autostart/goxlr-daemon.desktop \
-            --replace-fail goxlr-launcher goxlr-daemon
-        '';
-      };
-    in
-    mkIf config.services.goxlr-utility.enable {
+  config = mkIf config.services.goxlr-utility.enable
+    {
       services.udev.packages = [ cfg.package ];
 
       xdg.autostart.enable = mkIf cfg.autoStart.xdg true;
       environment.systemPackages = mkIf cfg.autoStart.xdg
         [
           cfg.package
-          goxlr-autostart
+          (pkgs.makeAutostartItem
+            {
+              name = "goxlr-utility";
+              package = cfg.package;
+            })
         ];
     };
 

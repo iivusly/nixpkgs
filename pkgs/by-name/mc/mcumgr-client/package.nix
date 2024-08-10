@@ -2,7 +2,6 @@
   lib,
   rustPlatform,
   fetchFromGitHub,
-  nix-update-script,
   pkg-config,
   udev,
   stdenv,
@@ -11,18 +10,22 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "mcumgr-client";
-  version = "0.0.7";
+  version = "0.0.4";
 
   src = fetchFromGitHub {
     owner = "vouch-opensource";
     repo = "mcumgr-client";
     rev = "v${version}";
-    hash = "sha256-P5ykIVdWAxuCblMe7kzjswEca/+MsqpizCGUHIpR4qc=";
+    hash = "sha256-MTNMnA5/CzwVrhNhDrfaXOatT4BFmc4nOPhIxTyc248=";
   };
 
-  cargoHash = "sha256-9jlthe7YQJogcjGv+TOk+O2YW3Xrq6h9tTjXdKHG99k=";
+  cargoLock = {
+    lockFile = ./Cargo.lock;
+  };
 
-  passthru.updateScript = nix-update-script { };
+  postPatch = ''
+    ln -s ${./Cargo.lock} Cargo.lock
+  '';
 
   nativeBuildInputs = [ pkg-config ];
 

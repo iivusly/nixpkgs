@@ -3,6 +3,10 @@
 with lib;
 
 let
+  package = if cfg.allowAuxiliaryImperativeNetworks
+    then pkgs.wpa_supplicant_ro_ssids
+    else pkgs.wpa_supplicant;
+
   cfg = config.networking.wireless;
   opt = options.networking.wireless;
 
@@ -102,7 +106,7 @@ let
       wantedBy = [ "multi-user.target" ];
       stopIfChanged = false;
 
-      path = [ pkgs.wpa_supplicant ];
+      path = [ package ];
       # if `userControl.enable`, the supplicant automatically changes the permissions
       #  and owning group of the runtime dir; setting `umask` ensures the generated
       #  config file isn't readable (except to root);  see nixpkgs#267693
@@ -517,8 +521,8 @@ in {
 
     hardware.wirelessRegulatoryDatabase = true;
 
-    environment.systemPackages = [ pkgs.wpa_supplicant ];
-    services.dbus.packages = optional cfg.dbusControlled pkgs.wpa_supplicant;
+    environment.systemPackages = [ package ];
+    services.dbus.packages = optional cfg.dbusControlled package;
 
     systemd.services =
       if cfg.interfaces == []

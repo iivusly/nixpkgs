@@ -12,14 +12,14 @@
 
 buildPythonPackage rec {
   pname = "pycddl";
-  version = "0.6.3";
-  pyproject = true;
+  version = "0.6.1";
+  format = "pyproject";
 
-  disabled = pythonOlder "3.8";
+  disabled = pythonOlder "3.7";
 
   src = fetchPypi {
     inherit pname version;
-    hash = "sha256-lVybSr+QvyepdTZfiTjqU0ENu6TT87ZZXIECBA8nMV4=";
+    hash = "sha256-63fe8UJXEH6t4l7ujV8JDvlGb7q3kL6fHHATFdklzFc=";
   };
 
   nativeBuildInputs = with rustPlatform; [
@@ -42,7 +42,7 @@ buildPythonPackage rec {
   cargoDeps = rustPlatform.fetchCargoTarball {
     inherit src;
     name = "${pname}-${version}";
-    hash = "sha256-VpJ/PLAwwuakwsNAtLDdWGXCxl6jGMTvsEhzIHk6a0g=";
+    hash = "sha256-ssDEKRd3Y9/10oXBZHCxvlRkl9KMh3pGYbCkM4rXThQ=";
   };
 
   nativeCheckInputs = [

@@ -9,13 +9,13 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "speakersafetyd";
-  version = "1.0.0";
+  version = "0.1.9";
 
   src = fetchCrate {
     inherit pname version;
-    hash = "sha256-I1RTtD5V4Z8R8zed/b4FitHyE7gFAja5YcA+z0VvSX0=";
+    hash = "sha256-I1fL1U4vqKxPS1t6vujMTdi/JAAOCcPkvUqv6FqkId4=";
   };
-  cargoHash = "sha256-8Dmts6SCRrZqyI+pdfgqsXfJy9Hqspbdb6EpQChMKDA=";
+  cargoHash = "sha256-Adwct+qFhUsOIao8XqNK2zcn13DBlQNA+X4aRFeIAXM=";
 
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [ alsa-lib ];
@@ -41,7 +41,7 @@ rustPlatform.buildRustPackage rec {
     description = "Userspace daemon written in Rust that implements an analogue of the Texas Instruments Smart Amp speaker protection model";
     mainProgram = "speakersafetyd";
     homepage = "https://github.com/AsahiLinux/speakersafetyd";
-    maintainers = with maintainers; [ flokli yuka ];
+    maintainers = with maintainers; [ yuka ];
     license = licenses.mit;
     platforms = platforms.linux;
   };

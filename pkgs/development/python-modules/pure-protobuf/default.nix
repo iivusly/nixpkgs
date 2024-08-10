@@ -8,7 +8,7 @@
   typing-extensions,
   pytestCheckHook,
   pytest-benchmark,
-  pytest-cov-stub,
+  pytest-cov,
   pydantic,
 }:
 
@@ -39,7 +39,7 @@ buildPythonPackage rec {
     pydantic
     pytestCheckHook
     pytest-benchmark
-    pytest-cov-stub
+    pytest-cov
   ];
 
   pytestFlagsArray = [ "--benchmark-disable" ];

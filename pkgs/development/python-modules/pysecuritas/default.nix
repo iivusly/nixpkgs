@@ -4,25 +4,22 @@
   fetchPypi,
   pythonOlder,
   requests,
-  setuptools,
   xmltodict,
 }:
 
 buildPythonPackage rec {
   pname = "pysecuritas";
   version = "0.1.6";
-  pyproject = true;
+  format = "setuptools";
 
   disabled = pythonOlder "3.6";
 
   src = fetchPypi {
     inherit pname version;
-    hash = "sha256-W3DLZCXUH9y5NPipFEu6URmKN+oVXMgeDF1rfKtxRng=";
+    sha256 = "W3DLZCXUH9y5NPipFEu6URmKN+oVXMgeDF1rfKtxRng=";
   };
 
-  build-system = [ setuptools ];
-
-  dependencies = [
+  propagatedBuildInputs = [
     xmltodict
     requests
   ];
@@ -35,9 +32,9 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "Python client to access Securitas Direct Mobile API";
+    mainProgram = "pysecuritas";
     homepage = "https://github.com/Cebeerre/pysecuritas";
     license = licenses.mit;
     maintainers = with maintainers; [ fab ];
-    mainProgram = "pysecuritas";
   };
 }

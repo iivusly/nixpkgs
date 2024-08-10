@@ -23,12 +23,12 @@
 let
   esbuild' = esbuild.override {
     buildGoModule = args: buildGoModule (args // rec {
-      version = "0.19.12";
+      version = "0.19.8";
       src = fetchFromGitHub {
         owner = "evanw";
         repo = "esbuild";
         rev = "v${version}";
-        hash = "sha256-NQ06esCSU6YPvQ4cMsi3DEFGIQGl8Ff6fhdTxUAyGvo=";
+        hash = "sha256-f13YbgHFQk71g7twwQ2nSOGA0RG0YYM01opv6txRMuw=";
       };
       vendorHash = "sha256-+BfxCyg0KkDQpHt/wycy/8CTG6YBA/VJvJFhhzUnSiQ=";
     });
@@ -36,16 +36,28 @@ let
 in
 buildNpmPackage rec {
   pname = "deltachat-desktop";
-  version = "1.46.2";
+  version = "1.46.1";
 
   src = fetchFromGitHub {
     owner = "deltachat";
     repo = "deltachat-desktop";
     rev = "v${version}";
-    hash = "sha256-5XGtyfc7Kak7qSQOQAH5gFtSaHeWclRhtsYSGPIQo6w=";
+    hash = "sha256-90/Wmh0h75i3kvqj3Wo+A3KlKW8LLDWfPza2gDrDY6E=";
   };
 
-  npmDepsHash = "sha256-4UPDNz0aw4VH3bMT+s/7DE6+ZPNP5w1iGCRpZZMXzPc=";
+  npmDepsHash = "sha256-UzWxMd+DYH5A8Zo1rzi8oIsoKbmzsVbGpr3uWtc02rY=";
+
+  postPatch = ''
+    test \
+      $(jq -r '.packages."node_modules/@deltachat/jsonrpc-client".version' package-lock.json) \
+      = ${deltachat-rpc-server.version} \
+      || (echo "error: deltachat-rpc-server version does not match jsonrpc-client" && exit 1)
+
+    test \
+      $(jq -r '.packages."node_modules/electron".version' package-lock.json | grep -E -o "^[0-9]+") \
+      = ${lib.versions.major electron.version} \
+      || (echo 'error: electron version doesn not match package-lock.json' && exit 1)
+  '';
 
   nativeBuildInputs = [
     jq
@@ -70,16 +82,6 @@ buildNpmPackage rec {
   };
 
   preBuild = ''
-    test \
-      $(jq -r '.packages."node_modules/@deltachat/jsonrpc-client".version' package-lock.json) \
-      = ${deltachat-rpc-server.version} \
-      || (echo "error: deltachat-rpc-server version does not match jsonrpc-client" && exit 1)
-
-    test \
-      $(jq -r '.packages."node_modules/electron".version' package-lock.json | grep -E -o "^[0-9]+") \
-      = ${lib.versions.major electron.version} \
-      || (echo 'error: electron version doesn not match package-lock.json' && exit 1)
-
     rm node_modules/@deltachat/stdio-rpc-server-*/deltachat-rpc-server
     ln -s ${lib.getExe deltachat-rpc-server} node_modules/@deltachat/stdio-rpc-server-linux-*
   '';

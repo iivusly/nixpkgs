@@ -9,7 +9,7 @@
 
 buildPythonPackage rec {
   pname = "motionblinds";
-  version = "0.6.24";
+  version = "0.6.23";
   pyproject = true;
 
   disabled = pythonOlder "3.7";
@@ -18,14 +18,14 @@ buildPythonPackage rec {
     owner = "starkillerOG";
     repo = "motion-blinds";
     rev = "refs/tags/${version}";
-    hash = "sha256-4ao0FalOFrr4or7iUqx5aAw93yqI2i3/uF4rdHOsa7M=";
+    hash = "sha256-f5R58p6tMVqmXAjybae8qjeNI3vxtGJ7qxZOl9H5iKw=";
   };
 
-  build-system = [ setuptools ];
+  nativeBuildInputs = [ setuptools ];
 
-  dependencies = [ pycryptodomex ];
+  propagatedBuildInputs = [ pycryptodomex ];
 
-  # Module has no tests
+  # Project has no tests
   doCheck = false;
 
   pythonImportsCheck = [ "motionblinds" ];

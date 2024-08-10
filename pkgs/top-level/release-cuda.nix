@@ -127,6 +127,7 @@ let
         jax = linux;
         Keras = linux;
         kornia = linux;
+        libgpuarray = linux;
         mmcv = linux;
         mxnet = linux;
         numpy = linux; # Only affected by MKL?

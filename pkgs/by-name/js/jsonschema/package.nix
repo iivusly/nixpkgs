@@ -15,7 +15,7 @@ buildGoModule rec {
     hash = "sha256-ANo9OkdNVCjV5uEqr9lNNbStquNb/3oxuTfMqE2nUzo=";
   };
 
-  sourceRoot = "${src.name}/cmd/jv";
+  sourceRoot = "source/cmd/jv";
   passthru.updateScript = nix-update-script { };
 
   vendorHash = "sha256-FuUkC7iwn/jO3fHjT9nGUXc2X1QuuxPc8DAzVpzhANk=";
