@@ -32,6 +32,7 @@ let
     "orgmode"
     "papis-nvim"
     "plenary-nvim"
+    "promise-async"
     "rest-nvim"
     "rocks-config-nvim"
     "rtp-nvim"

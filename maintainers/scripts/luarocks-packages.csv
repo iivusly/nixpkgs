@@ -132,6 +132,7 @@ papis.nvim,,,,,,GaetanLepage
 pathlib.nvim,,,,,,
 penlight,,,,,,alerque
 plenary.nvim,https://raw.githubusercontent.com/nvim-lua/plenary.nvim/master/plenary.nvim-scm-1.rockspec,,,,5.1,
+promise-async,,,,,,
 psl,,,,0.3,,
 rapidjson,,,,,,
 rest.nvim,,,,,5.1,teto
